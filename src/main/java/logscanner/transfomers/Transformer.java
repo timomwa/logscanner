@@ -4,21 +4,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Transformer {
+	public static final Pattern DATE_PATTERN = Pattern.compile("(^\\d{4}-\\d{2}-\\d{2}"
+			+ "\\s\\d{2}:\\d{2}:\\d{2},\\d{3}"
+			+ ")\\s\\[(.+)\\]\\s(.+)\\s\\[(.+)\\](\\:\\s)(.+)$");
+	public static final String START_RENDERING_STR = "startRendering";
+	public static final String START_RENDERING_RETURN_STR = "Service startRendering returned";
 	
 	public static void parse(String line) throws Exception{
-		String date = "2010-10-06 09:14:26,019 [WorkerThread-2] INFO  [ServerSession]: Processing command object: {path=update##com.dn.gaverzicht.dms.filters.DocumentGroupFilter, type=evt-reg}";//WorkerThread-2]";// 09:14:26,019";
-		Pattern DATE_PATTERN = Pattern.compile("(^\\d{4}-\\d{2}-\\d{2}"
-				+ "\\s\\d{2}:\\d{2}:\\d{2},\\d{3}"
-				+ ")\\s\\[(.+)\\]\\s(.+)\\s\\[(.+)\\](\\:\\s)(.+)$");
-				//(\\:)\\s(.+)(\\:)\\s(.+)$");
-		Matcher matcher = DATE_PATTERN.matcher(date);
+		Matcher matcher = DATE_PATTERN.matcher(line);
 		if(matcher.matches()) {
+		String logMessage = matcher.group(6);
 			//System.out.println("1: "+ matcher.group(1));
 			//System.out.println("2: "+ matcher.group(2));
 			//System.out.println("3: ["+ matcher.group(3)+"]");
 			//System.out.println("4: ["+ matcher.group(4)+"]");
 			//System.out.println("5: ["+ matcher.group(5)+"]");
-			//System.out.println("6: ["+ matcher.group(6)+"]");
+		if(logMessage.contains(START_RENDERING_STR) || logMessage.contains(START_RENDERING_RETURN_STR))
+			System.out.println("6: ["+ logMessage+"]");
 			//System.out.println("7: ["+ matcher.group(7)+"]");
 			//System.out.println("8: ["+ matcher.group(8)+"]");
 		}
