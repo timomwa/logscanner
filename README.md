@@ -9,7 +9,7 @@
 
 Build the project first by running
 
-	mvn package
+	mvn clean package
 	
 Dependencies should download then, to run the tool, do;
 
