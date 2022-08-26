@@ -23,4 +23,4 @@ For example;
 #Output
 There will be a new file created at the root of this project called
 
-	re
+#Split the filles

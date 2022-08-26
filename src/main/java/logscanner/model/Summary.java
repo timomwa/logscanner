@@ -11,7 +11,7 @@ public class Summary implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@JsonProperty("count")
-	private int count;
+	private int count = 0;
 	
 	@JsonProperty("duplicates")
 	private int duplicates;

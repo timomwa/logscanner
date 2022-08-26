@@ -13,10 +13,11 @@ public class Report implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@JacksonXmlElementWrapper(useWrapping = false)
+	//@JacksonXmlElementWrapper(useWrapping = false)
+	@JsonProperty("rendering")
 	private List<Rendering> renderings = new ArrayList<Rendering>();
 	
-	//@JsonProperty("summary")
+	@JsonProperty("summary")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	private Summary summary;
 

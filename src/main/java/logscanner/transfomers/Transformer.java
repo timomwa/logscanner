@@ -35,12 +35,19 @@ public class Transformer {
 	public void parse(String line, String logLevelFocus) throws Exception {
 
 		if (line.contains(logLevelFocus)) {
+			
+			String threadID = "";
+			String timeStamp = "";
+			int documentID = -1;
+			int pageIndex = -1;
+			String uuid = "";
+			Rendering rendering = null;
 
 			Matcher lineMatcher = LOG_ENTRY_PATTERN.matcher(line);
 			if (lineMatcher.matches()) {
 				String logMessage = lineMatcher.group(6);
-				String threadID = lineMatcher.group(2);
-				String timeStamp = lineMatcher.group(1);
+				threadID = lineMatcher.group(2);
+				timeStamp = lineMatcher.group(1);
 				//System.out.println("Start " + start);
 				// System.out.println("2: "+ lineMatcher.group(2));
 				// System.out.println("3: ["+ lineMatcher.group(3)+"]");
@@ -51,9 +58,9 @@ public class Transformer {
 					// System.out.println("logMessage: "+ logMessage+"]");
 					Matcher docIdAndPageMatcher = DOC_ID_AND_PAGE_PATTERN.matcher(logMessage);
 					if (docIdAndPageMatcher.matches()) {
-						int documentID = Integer.valueOf(docIdAndPageMatcher.group(2));
-						int pageIndex = Integer.valueOf(docIdAndPageMatcher.group(4));
-						Rendering rendering = new Rendering(documentID, pageIndex);
+						documentID = Integer.valueOf(docIdAndPageMatcher.group(2));
+						pageIndex = Integer.valueOf(docIdAndPageMatcher.group(4));
+						rendering = new Rendering(documentID, pageIndex);
 						rendering.setProcessingThreadName(threadID);
 						rendering.getStart().add(SIMPLE_DATE_FORMAT.parse(timeStamp));
 						documentIdVsCountMap.put(documentID, rendering);
@@ -70,7 +77,8 @@ public class Transformer {
 					
 					Matcher UUID_SEARCH_MATCHER = UUID_SEARCH_PATTERN.matcher(line);
 					if(UUID_SEARCH_MATCHER.matches()) {
-						String uuid = UUID_SEARCH_MATCHER.group(2);
+						uuid = UUID_SEARCH_MATCHER.group(2);
+						rendering.setUid(uuid);
 						//System.out.println(uuid);
 					}
 
